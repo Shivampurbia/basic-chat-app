@@ -1,0 +1,15 @@
+#name{
+        margin: auto;
+        right: 0px;
+        width: 300px;
+        position: absolute;
+        padding: 10px;
+        color: blanchedalmond;
+      }
+      #button{
+          border-radius: 2rem;
+          
+          border:3px solid black;
+      }
+
+      
