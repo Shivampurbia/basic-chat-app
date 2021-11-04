@@ -1,11 +1,9 @@
 
 //Express initializes app to be a function handler that you can supply to an HTTP server (as seen in line 4)
-const express = require('express');
-const app = express();
-const http = require('http');
-const server = http.createServer(app);
-const { Server } =  require("socket.io");
-const io = new Server(server);
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const port = process.env.PORT || 3000;
 
 const users = {}
 
@@ -19,8 +17,8 @@ io.on('connection', (socket) => {
       io.emit('chat message',msg);
     });  
     socket.on('user name',(username)=>{
-      io.emit('user name',username);
-    });
+      io.emit('user name',username)
+    })
     socket.on('disconnect', () => {
       console.log('user disconnected');
     });
@@ -28,6 +26,6 @@ io.on('connection', (socket) => {
   });
 
 
-server.listen(3000,()=>{
-    console.log('listening on port :3000');
-})
+  http.listen(port, () => {
+    console.log(`Socket.IO server running at http://localhost:${port}/`);
+  });
