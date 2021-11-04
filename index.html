@@ -3,31 +3,86 @@
   <head>
     <title>Socket.IO chat</title>
     <style>
-      body { background-color: rgb(82, 81, 81); margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+      body { 
+        background-color: rgb(51, 58, 126); 
+        margin: 0; 
+        padding-bottom: 3rem;
+         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+        }
 
-      #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position:absolute; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
-      #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
+      #form { 
+        background: rgba(7, 20, 43, 0.986); 
+        padding: 10px 0; 
+        border: 3px solid black;
+        border-top-right-radius: .5rem;
+        border-top-left-radius: .5rem ;
+        
+        position:fixed; 
+        bottom: 0; 
+        left: 0; 
+        right: 0; 
+        
+        display: flex; 
+        height: 3.5rem; 
+        box-sizing: border-box; 
+        backdrop-filter: blur(10px); 
+      }
+      #input { 
+        border: none; 
+        padding: 0 1rem; 
+        flex-grow: 1;
+         background-color: rgb(115, 114, 116);
+        border-radius: 2rem; 
+        margin: 0.20rem;
+        margin-top: .02rem; 
+      }
       #input:focus { outline: none; }
-      #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
+      #form > button { 
+        background: rgb(7, 153, 190); 
+        
+        border: none; 
+        padding: 0 1rem; 
+        margin: 0.25rem; 
+        border-radius: 12px; 
+        outline: none; 
+        color: #fff; }
+      #form > button:hover{
+        background-color:rgba(90, 214, 245, 0.664) ;
+      }  
       
       
 
       
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages > li { padding: 0.5rem 1rem; }
+      #messages { 
+        list-style-type: none; 
+        margin: 0; 
+        padding: 0;
+        min-height: 1em;
+      }
+      #messages > li { 
+        padding: 0.5rem 1rem; 
+        border-radius: 1rem;
+        width:fit-content;
+        
+      }
       #messages > li:nth-child(odd) { 
-       color:#fff; background: #0d174b; }
+       color:#fff;
+       margin-left: auto;
+       background: #0d174b; 
+      }
       #messages > li:nth-child(even) { 
         color: #efefef;  
-        background: #222222; }
+        background: #222222; 
+      }
     </style>
   </head>
   <body>   
     <ul id="messages"></ul>
     <form id="form" action="">
-      <label id="form" style="color: blanchedalmond;"> Enter your message here:
+      <label id="form" style="color: rgb(248, 248, 246);"> Enter your message here:
         <input id="input" autocomplete="off" /><button>Send</button>
       </label>
+      
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -49,6 +104,7 @@
 
         form.addEventListener('submit',(e)=>{
             e.preventDefault();
+            
             if(e.target.input.value ){
                  
                 socket.emit('chat message',name + ': ' + e.target.input.value);

@@ -12,4 +12,12 @@
           border:3px solid black;
       }
 
+      socket.on('user name',(username)=>{
+          var currentUser = document.createElement('h2');
+          currentUser.textContent = username + ' joined' ;
+          messages.appendChild(currentUser);
+          users.push(username);
+        })
+        console.log(users);
+
       
