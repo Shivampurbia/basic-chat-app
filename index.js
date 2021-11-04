@@ -18,16 +18,14 @@ io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
       io.emit('chat message',msg);
     });  
-
     socket.on('user name',(username)=>{
-      console.log(username+' connected');
       io.emit('user name',username);
-  });
+    });
     socket.on('disconnect', () => {
       console.log('user disconnected');
     });
+  
   });
-
 
 
 server.listen(3000,()=>{
