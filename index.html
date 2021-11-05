@@ -100,9 +100,15 @@
         var form = document.getElementById('form');
         var input = document.getElementById('input');
         
-        const name = prompt('What is your name?');
+        let name = prompt('What is your name?');
         var parti = "";
-
+        while(name.length > 10 || name.length<3){
+          const nameA = prompt('Enter a valid name (10> length > 2)');
+          if(nameA.length<10 && nameA.length>2){
+            name=nameA
+            break
+          }
+        }
         socket.emit('user name',name);
         socket.on('user name',(username)=>{
           var currentUser = document.createElement('h3');
