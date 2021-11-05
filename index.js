@@ -18,11 +18,18 @@ io.on('connection', (socket) => {
     });  
     socket.on('user name',(username)=>{
       io.emit('user name',username)
-    })
-    socket.on('disconnect', () => {
-      console.log('user disconnected');
+      users[socket.id] = username;
+      console.log(username+ ': connected');
+      io.emit('user list',users);
+      console.log('UserList: ',users);
     });
-  
+    socket.on('disconnect', () => {
+      console.log(users[socket.id] + ': disconnected');
+      io.emit('user left',users[socket.id]+' left');
+      delete users[socket.id];
+      io.emit('user list',users);
+      console.log('UserList: ',users);
+    });
   });
 
 

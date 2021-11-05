@@ -5,10 +5,19 @@
     <style>
       body { 
         background-color: rgb(51, 58, 126); 
-        margin: 0; 
+        margin-top: 0%; 
         padding-bottom: 3rem;
-         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
         }
+
+      body > h2 {
+        color: #070606;
+        background-color: #ddd8d8;
+        position:fixed;
+        top:-20px;
+        width:100%;
+        z-index:100;
+      }  
 
       #form { 
         background: rgba(7, 20, 43, 0.986); 
@@ -49,13 +58,10 @@
       #form > button:hover{
         background-color:rgba(90, 214, 245, 0.664) ;
       }  
-      
-      
-
-      
       #messages { 
         list-style-type: none; 
-        margin: 0; 
+        margin: 0;
+        margin-top: 3.5em;
         padding: 0;
         min-height: 1em;
       }
@@ -74,9 +80,12 @@
         color: #efefef;  
         background: #222222; 
       }
+   
     </style>
   </head>
-  <body>   
+  
+  <body>
+    <h2 id="h2"></h2>
     <ul id="messages"></ul>
     <form id="form" action="">
       <label id="form" style="color: rgb(248, 248, 246);"> Enter your message here:
@@ -86,26 +95,41 @@
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        
         var socket = io();
         var form = document.getElementById('form');
         var input = document.getElementById('input');
         
-        let users = [];
-        const name = prompt('What is your name?')
-        
+        const name = prompt('What is your name?');
+        var parti = "";
+
         socket.emit('user name',name);
         socket.on('user name',(username)=>{
-          var currentUser = document.createElement('h2');
+          var currentUser = document.createElement('h3');
+          currentUser.setAttribute("style", "color:rgb(23, 243, 52); font-size:1em;");
           currentUser.textContent = username + ' joined' ;
           messages.appendChild(currentUser);
-          users.push(username);
+          
         })
-        console.log(users);
+        socket.on('user list',(userlist)=>{
+          str = (Object.values(userlist).join());
+          parti = str;
+          myfunction();
+        })
+        socket.on('user left',(userleft)=>{
+          var userLeft = document.createElement('h3');
+          userLeft.setAttribute("style", "color:red; font-size:1em;");
+          userLeft.textContent = userleft ;
+          messages.appendChild(userLeft);
+        })
+        
+
+        
 
         form.addEventListener('submit',(e)=>{
             e.preventDefault();
             
-            if(e.target.input.value ){
+            if(e.target.input.value){
                  
                 socket.emit('chat message',name + ': ' + e.target.input.value);
                 input.value = "";
@@ -113,13 +137,15 @@
         })
         socket.on('chat message', (msg)=> {
             var item = document.createElement('li');
-            item.textContent =   msg;
+            item.textContent = msg;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
         });
-    
-    
-    
+
+        function myfunction() {
+          document.querySelector("h2").innerHTML = 'participants: ' + parti;
+        }
+
     </script>    
   </body>
 </html>
